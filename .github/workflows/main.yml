@@ -1,0 +1,23 @@
+name: Deploy Automático para o Google Script
+
+on:
+  push:
+    branches:
+      - main  # Sempre que você atualizar o código no GitHub, ele envia pro Google Script
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixando o código do GitHub
+        uses: actions/checkout@v4
+
+      - name: Instalando o Node e Clasp
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Executando o Deploy no Google Script
+        uses: GoogleAppsScript/clasp-action@v1.2.0
+        with:
+          clasp_creds_json: ${{ secrets.CLASSP_CREDS_JSON }}
